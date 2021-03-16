@@ -1,0 +1,15 @@
+language: node_js
+branches:
+  only:
+  - master
+env:
+  - version="$(date '+%Y-%m-%d_%H-%M-%S')"
+  - version=last
+services:
+  - docker
+script:
+  - echo $version
+  - echo $(date "+%Y-%m-%d %H:%M:%S")
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t "alexcdever/blog:$version" .
+  - docker push "alexcdever/blog:$version"
